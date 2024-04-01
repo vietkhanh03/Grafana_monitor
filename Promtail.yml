@@ -10,19 +10,29 @@ server:
   grpc_listen_port: 0
 
 positions:
-  filename: /data/loki/positions.yaml
+  filename: /tmp/positions.yaml
 
 clients:
-  - url: http://localhost:3100/loki/api/v1/push
+  - url: http://172.16.2.87:3100/loki/api/v1/push
 
 scrape_configs:
 - job_name: system
+  pipeline_stages:
+    - regex:
+        expression: '(\s)(?P<log_level>(ERROR|WARN|INFO|DEBUG))(\s)'
+    - labels:
+        level: log_level
   static_configs:
   - targets:
       - localhost
     labels:
-      job: varlogs
-      __path__: /var/log/*log
+      job: mongo
+      __path__: /var/log/mongodb/*log
+  - targets:
+      - localhost
+    labels:
+      job: wildfly
+      __path__: /home/programs/inbox-server/wildfly-11.0.0/standalone/log/server.log
 ## Till above line only
 
 
@@ -35,7 +45,8 @@ After=network.target
 [Service]
 Type=simple
 User=root
-ExecStart=/usr/local/bin/promtail -config.file /etc/promtail-local-config.yaml
+Environment="HOSTNAME=%H"
+ExecStart=/usr/local/bin/promtail -config.file /etc/promtail-local-config.yaml --client.external-labels=hostname=${HOSTNAME} -config.expand-env=true
 
 [Install]
 WantedBy=multi-user.target
