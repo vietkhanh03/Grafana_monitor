@@ -79,7 +79,7 @@ Description=Loki service
 After=network.target
 
 [Service]
-Type=simplesaa
+Type=simple
 User=root
 ExecStart=/usr/local/bin/loki -config.file /etc/loki-local-config.yaml -config.expand-env=true
 
