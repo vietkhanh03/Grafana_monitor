@@ -57,6 +57,19 @@ chunk_store_config:
 table_manager:
   retention_deletes_enabled: false
   retention_period: 0s
+
+#query_scheduler:
+ # max_outstanding_requests_per_tenant: 2048
+query_range:
+  split_queries_by_interval: 0
+  parallelise_shardable_queries: false
+
+querier:
+  max_concurrent: 2048
+
+frontend:
+  max_outstanding_per_tenant: 4096
+  compress_responses: true
 ## Till above line only
 
 ## Create Loki Service
@@ -68,7 +81,7 @@ After=network.target
 [Service]
 Type=simplesaa
 User=root
-ExecStart=/usr/local/bin/loki -config.file /etc/loki-local-config.yaml
+ExecStart=/usr/local/bin/loki -config.file /etc/loki-local-config.yaml -config.expand-env=true
 
 [Install]
 WantedBy=multi-user.target
