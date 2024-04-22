@@ -1,3 +1,9 @@
+## Tạo thư mục và file send-sms.py
+mkdir sendsms && cd sendsms
+sudo nano sendsms.py
+
+
+#### đường dẫn /root/sendsms/sendsms.py
 from flask import Flask, request
 import subprocess
 
