@@ -33,6 +33,19 @@ scrape_configs:
     labels:
       job: wildfly
       __path__: /home/programs/inbox-server/wildfly-11.0.0/standalone/log/server.log
+      
+  - job_name: system-ssh
+    pipeline_stages:
+      - regex:
+          expression: '.*\sfrom\s(?:\d+\.){3}\d+\sport.*on\s(?P<ip>(?:\d+\.){3}\d+)\sport.*'
+      - labels:
+          ipp: ip
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: SSh
+          __path__: /var/log/auth.log
 ## Till above line only
 
 
