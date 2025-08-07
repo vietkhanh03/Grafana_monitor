@@ -9,10 +9,10 @@ import subprocess
 
 APP = Flask(__name__)
 
-SMS_API_URL = "http://smsdn.vnptbariavungtau.vn/VNPT_SMS_BrandnameWS.asmx/Send_sms"
-USERNAME = "KH_UBNDTPVT"
-PASSWORD = "TpVtMNuV1@j8zY@z"
-PHONE_NUMBER = "0399122789"
+SMS_API_URL = ""
+USERNAME = ""
+PASSWORD = ""
+PHONE_NUMBER = ""
 
 @APP.route('/', methods=['POST'])
 def sendsms():
